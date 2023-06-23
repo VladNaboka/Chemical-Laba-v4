@@ -64,9 +64,9 @@ public class DragController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, _dropableLayer))
         {
-            if (_dragable != null && _isDragging == true)
+            if (_dragable != null && hit.normal == Vector3.up)
             {
-                _dragable.DropObject(hit.point);
+                _dragable.DropObject(new Vector3(hit.point.x, hit.point.y + 0.5f, hit.point.z));
                 StartCoroutine(DragDelayCoroutine());
                 _equipped = false;
             }
