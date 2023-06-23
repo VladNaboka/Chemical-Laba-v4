@@ -62,7 +62,7 @@ public class DragController : MonoBehaviour
         };
 
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, _dropableLayer))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, _dropableLayer))
         {
             if (_dragable != null && _isDragging == true)
             {
