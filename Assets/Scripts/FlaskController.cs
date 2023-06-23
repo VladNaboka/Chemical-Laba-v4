@@ -20,7 +20,8 @@ public class FlaskController : MonoBehaviour, IDragable
 
     public void DragObject()
     {
-        transform.DOMove(_hand.transform.position, 0.3f).OnComplete(() => transform.SetParent(_hand.transform));
+        transform.SetParent(_hand.transform);
+        transform.DOLocalMove(Vector3.zero, 0.25f);
     }
 
     public void DropObject(Vector3 position)
