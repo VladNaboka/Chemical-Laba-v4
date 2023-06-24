@@ -28,6 +28,7 @@ public class LakmussPaper : MonoBehaviour
         if (collision.gameObject.CompareTag("Blob"))
         {
             ChangeColor();
+            Destroy(collision.gameObject);
         }
     }
 
