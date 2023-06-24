@@ -18,6 +18,7 @@ public class RaycastSystem : MonoBehaviour
 
             if (hit.collider.gameObject.name == "Gloves" && Input.GetKeyDown(KeyCode.E))
             {
+                GameObject.Find("GloveGuide").SetActive(false);
                 ControllerPlayer.glovesOn = true;
                 Destroy(hit.collider.gameObject);
             }
