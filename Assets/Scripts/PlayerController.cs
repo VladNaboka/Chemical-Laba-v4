@@ -10,19 +10,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 _move;
     private Vector3 _playerVelocity;
     private bool _groundedPlayer;
-    private float _multplier;
-    private float _jumpHeight = 1.0f;
     private float _gravityValue = -9.81f;
-    
-    private void OnEnable()
-    {
-        GetComponent<PlayerInput>().OnJumped += Jump;
-    }
-
-    private void OnDisable()
-    {
-        GetComponent<PlayerInput>().OnJumped -= Jump;
-    }
 
     private void Awake()
     {
@@ -51,14 +39,6 @@ public class PlayerController : MonoBehaviour
         if (_groundedPlayer && _playerVelocity.y < 0)
         {
             _playerVelocity.y = 0f;
-        }
-    }
-
-    private void Jump()
-    {
-        if (_groundedPlayer)
-        {
-            _playerVelocity.y += Mathf.Sqrt(_jumpHeight * -3.0f * _gravityValue);
         }
     }
 }

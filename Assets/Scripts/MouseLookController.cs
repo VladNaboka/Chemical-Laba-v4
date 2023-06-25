@@ -6,7 +6,7 @@ public class MouseLookController : MonoBehaviour
 {
     [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private Transform _playerBody;
-    private float _mouseSensitivity = 1000f;
+    [SerializeField] private float _mouseSensitivity = 1000f;
     private float _xRotation;
     private Vector2 _mouseInput;
 

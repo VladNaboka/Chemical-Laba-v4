@@ -1,81 +1,127 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DragController : MonoBehaviour
 {
+    [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private LayerMask _dropableLayer;
+    [SerializeField] private LayerMask _interactableLayer;
     private IDragable _dragable;
+    private IPlaceable _placeable;
+    private IInteractable _interactable;
+    private Ray _ray;
+    private RaycastHit _hitInfo;
+    private float _dragDelay = 0.4f;
+    private float _interactDelay = 0.5f;
     private bool _isDragging = false;
     private bool _equipped = false;
+    private bool _canInteract = false;
+
+    public event Action OnActStarted = default;
+
+    private void OnEnable()
+    {
+        _playerInput.OnLMBClicked += Drag;
+        _playerInput.OnLMBClicked += Place;
+        _playerInput.OnEkeyClicked += Interact;
+        _playerInput.OnEkeyClicked += Use;
+    }
+
+    private void OnDisable()
+    {
+        _playerInput.OnLMBClicked -= Drag;
+        _playerInput.OnLMBClicked -= Place;
+        _playerInput.OnEkeyClicked -= Interact;
+        _playerInput.OnEkeyClicked -= Use;
+    }
 
     private void Update()
     {
-        if(CanDrag())
-        {
-            Drag();
-        }
-
-        if(CanDrop())
-        {
-            Drop();
-        }
+        CreateRay();
     }
 
-    private bool CanDrag()
+    private void CreateRay()
     {
-        return Input.GetMouseButtonDown(0) && !_isDragging && _equipped == false;
-    }
-
-    private bool CanDrop()
-    {
-        return Input.GetMouseButtonDown(0) && _isDragging && _equipped == true;
-    }
-
-    private void Drag()
-    {
-        Ray ray = new Ray
+        _ray = new Ray
         {
             origin = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0)),
             direction = Camera.main.transform.forward
         };
+    }
 
-        RaycastHit hit;
-        if(Physics.Raycast(ray, out hit))
+    private void Drag()
+    {
+        if(!_isDragging && !_equipped && !_canInteract)
+        if(Physics.Raycast(_ray, out _hitInfo))
         {
-            _dragable = hit.collider.GetComponent<IDragable>();
+            _dragable = _hitInfo.collider.GetComponent<IDragable>();
+            _placeable = _dragable as IPlaceable;
+            _interactable = _dragable as IInteractable;
+
             if(_dragable != null)
             {
                 _dragable.DragObject();
                 StartCoroutine(DragDelayCoroutine());
                 _equipped = true;
+                _canInteract = true;
             }
         }
     }
 
-    private void Drop()
+    private void Place()
     {
-        Ray ray = new Ray
+        if(_isDragging && _equipped && _canInteract)
+        if (Physics.Raycast(_ray, out _hitInfo, Mathf.Infinity, _dropableLayer))
         {
-            origin = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0)),
-            direction = Camera.main.transform.forward
-        };
-
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, _dropableLayer))
-        {
-            if (_dragable != null && hit.normal == Vector3.up)
+            if (_placeable != null && _hitInfo.normal == Vector3.up)
             {
-                _dragable.DropObject(new Vector3(hit.point.x, hit.point.y + 0.5f, hit.point.z));
+                _placeable.PlaceObject(new Vector3(_hitInfo.point.x, _hitInfo.point.y + 0.5f, _hitInfo.point.z));
                 StartCoroutine(DragDelayCoroutine());
                 _equipped = false;
+                _canInteract = false;
+            }
+        }
+    }
+
+    private void Interact()
+    {
+        if(_equipped && _canInteract)
+        if (Physics.Raycast(_ray, out _hitInfo, Mathf.Infinity, _interactableLayer))
+        {
+            if(_interactable != null)
+            {
+                _interactable.InteractObject(_hitInfo.collider.transform);
+                _canInteract = false;
+                StartCoroutine(DragDelayCoroutine());
+                StartCoroutine(InteractDelayCoroutine());
+            }
+        }
+    }
+
+    private void Use()
+    {
+        if(Physics.Raycast(_ray, out _hitInfo))
+        {
+            IUsable usable = _hitInfo.collider.GetComponent<IUsable>();
+
+            if(usable != null)
+            {
+                usable.UseObject();
             }
         }
     }
 
     private IEnumerator DragDelayCoroutine()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(_dragDelay);
         _isDragging = !_isDragging;
+    }
+
+    private IEnumerator InteractDelayCoroutine()
+    {
+        yield return new WaitForSeconds(_interactDelay);
+        _canInteract = true;
     }
 }
