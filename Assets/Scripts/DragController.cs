@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class DragController : MonoBehaviour
 {
@@ -13,13 +14,12 @@ public class DragController : MonoBehaviour
     private IInteractable _interactable;
     private Ray _ray;
     private RaycastHit _hitInfo;
-    private float _dragDelay = 0.4f;
-    private float _interactDelay = 0.5f;
+    private float _dragAndDropDelay = 0.3f;
+    private float _interactDelay = 0.6f;
+    private float _animationSpeed = 0.3f;
     private bool _isDragging = false;
     private bool _equipped = false;
     private bool _canInteract = false;
-
-    public event Action OnActStarted = default;
 
     private void OnEnable()
     {
@@ -53,7 +53,7 @@ public class DragController : MonoBehaviour
 
     private void Drag()
     {
-        if(!_isDragging && !_equipped && !_canInteract)
+        if(!_isDragging && !_equipped)
         if(Physics.Raycast(_ray, out _hitInfo))
         {
             _dragable = _hitInfo.collider.GetComponent<IDragable>();
@@ -62,7 +62,7 @@ public class DragController : MonoBehaviour
 
             if(_dragable != null)
             {
-                _dragable.DragObject();
+                _dragable.DragObject(_animationSpeed);
                 StartCoroutine(DragDelayCoroutine());
                 _equipped = true;
                 _canInteract = true;
@@ -77,7 +77,7 @@ public class DragController : MonoBehaviour
         {
             if (_placeable != null && _hitInfo.normal == Vector3.up)
             {
-                _placeable.PlaceObject(new Vector3(_hitInfo.point.x, _hitInfo.point.y + 0.5f, _hitInfo.point.z));
+                _placeable.PlaceObject(new Vector3(_hitInfo.point.x, _hitInfo.point.y + _placeable.PlaceYPosition, _hitInfo.point.z), _animationSpeed);
                 StartCoroutine(DragDelayCoroutine());
                 _equipped = false;
                 _canInteract = false;
@@ -92,10 +92,10 @@ public class DragController : MonoBehaviour
         {
             if(_interactable != null)
             {
-                _interactable.InteractObject(_hitInfo.collider.transform);
-                _canInteract = false;
-                StartCoroutine(DragDelayCoroutine());
+                Transform childTransform = _hitInfo.collider.transform.GetChild(0);
+                _interactable.InteractObject(childTransform);
                 StartCoroutine(InteractDelayCoroutine());
+                _canInteract = false;
             }
         }
     }
@@ -115,7 +115,7 @@ public class DragController : MonoBehaviour
 
     private IEnumerator DragDelayCoroutine()
     {
-        yield return new WaitForSeconds(_dragDelay);
+        yield return new WaitForSeconds(_dragAndDropDelay);
         _isDragging = !_isDragging;
     }
 
