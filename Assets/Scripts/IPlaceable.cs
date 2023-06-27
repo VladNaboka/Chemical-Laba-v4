@@ -4,5 +4,6 @@ using UnityEngine;
 
 public interface IPlaceable
 {
-    void PlaceObject(Vector3 position);
+    float PlaceYPosition { get; }
+    void PlaceObject(Vector3 position, float dropSpeed);
 }

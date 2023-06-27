@@ -46,7 +46,7 @@ public class AutoJumpScene : MonoBehaviour
     {
         // Play/pause game, reload scene controls
         if (Input.GetKeyDown(KeyCode.Space)) TogglePlay();
-        else if (Input.GetKeyDown(KeyCode.F5)) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        else if (Input.GetKeyDown(KeyCode.F5)) UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
 
         if (!_isPlaying) return;
 

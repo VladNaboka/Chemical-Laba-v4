@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LakmussPaper : MonoBehaviour
+public class LakmussPaperController : MonoBehaviour
 {
     [SerializeField] private Color _color;
 

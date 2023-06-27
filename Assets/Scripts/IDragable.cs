@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IDragable
 {
-    void DragObject();
+    void DragObject(float dragSpeed);
 }
