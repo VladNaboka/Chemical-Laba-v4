@@ -2,5 +2,6 @@ using UnityEngine;
 
 public interface IInteractable
 {
-    void InteractObject(Transform parent);
+    float InteractDelay { get; }
+    void InteractObject(Transform parent, RaycastHit hitInfo);
 }

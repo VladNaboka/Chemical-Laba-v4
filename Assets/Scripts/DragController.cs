@@ -15,7 +15,7 @@ public class DragController : MonoBehaviour
     private Ray _ray;
     private RaycastHit _hitInfo;
     private float _dragAndDropDelay = 0.3f;
-    private float _interactDelay = 0.6f;
+    private float _interactDelay;
     private float _animationSpeed = 0.3f;
     private bool _isDragging = false;
     private bool _equipped = false;
@@ -93,7 +93,8 @@ public class DragController : MonoBehaviour
             if(_interactable != null)
             {
                 Transform childTransform = _hitInfo.collider.transform.GetChild(0);
-                _interactable.InteractObject(childTransform);
+                _interactDelay = _interactable.InteractDelay;
+                _interactable.InteractObject(childTransform, _hitInfo);
                 StartCoroutine(InteractDelayCoroutine());
                 _canInteract = false;
             }

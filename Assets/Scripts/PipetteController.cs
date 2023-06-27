@@ -9,8 +9,10 @@ public class PipetteController : MonoBehaviour, IDragable, IPlaceable, IInteract
     [SerializeField] private GameObject _blob;
     [SerializeField] private Transform _spawnPosition;
     [SerializeField] private float _placeYPosition;
-    
+    private float _interactDelay = 0.6f;
+
     public float PlaceYPosition => _placeYPosition;
+    public float InteractDelay => _interactDelay;
 
     public void DragObject(float dragSpeed)
     {
@@ -28,13 +30,18 @@ public class PipetteController : MonoBehaviour, IDragable, IPlaceable, IInteract
         transform.DORotate(new Vector3(0, transform.eulerAngles.y, 90), dropSpeed);
     }
 
-    public void InteractObject(Transform parent)
+    public void InteractObject(Transform parent, RaycastHit hitInfo)
     {
         transform.DOKill();
-        StartCoroutine(InteractAnimationCourutine(parent));
+
+        if(hitInfo.collider.GetComponent<LakmussPaperController>())
+        StartCoroutine(DropBlobCourutine(parent));
+
+        if(hitInfo.collider.GetComponent<FlaskController>())
+        StartCoroutine(FillPipetteCoroutine(parent));
     }
 
-    private IEnumerator InteractAnimationCourutine(Transform parent)
+    private IEnumerator DropBlobCourutine(Transform parent)
     {
         transform.SetParent(parent);
         transform.DOLocalRotate(Vector3.zero, 0.3f);
@@ -43,6 +50,17 @@ public class PipetteController : MonoBehaviour, IDragable, IPlaceable, IInteract
         GameObject blob = Instantiate(_blob, _spawnPosition.position, Quaternion.identity);
         Destroy(blob, 0.5f);
         yield return new WaitForSeconds(0.1f);
+        DragObject(0.2f);
+    }
+
+    private IEnumerator FillPipetteCoroutine(Transform parent)
+    {
+        transform.SetParent(parent);
+        transform.DOLocalRotate(Vector3.zero, 0.2f);
+        transform.DOLocalMove(Vector3.zero, 0.2f);
+        yield return new WaitForSeconds(0.2f);
+        transform.DOLocalMove(new Vector3(0, -0.5f, 0), 0.1f).OnComplete(() => transform.DOLocalMove(Vector3.zero, 0.1f));
+        yield return new WaitForSeconds(0.4f);
         DragObject(0.2f);
     }
 }
