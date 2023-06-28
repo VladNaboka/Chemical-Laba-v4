@@ -6,8 +6,9 @@ public class MouseLookController : MonoBehaviour
 {
     [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private Transform _playerBody;
-    [SerializeField] private float _mouseSensitivity = 1000f;
+    [SerializeField] private float _mouseSensitivity = 500f;
     private float _xRotation;
+    private float _yRotation;
     private Vector2 _mouseInput;
 
     private void Start()
@@ -26,9 +27,11 @@ public class MouseLookController : MonoBehaviour
         _mouseInput.y = _playerInput.MouseY * _mouseSensitivity * Time.deltaTime; 
 
         _xRotation -= _mouseInput.y;
-        _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
+        _xRotation = Mathf.Clamp(_xRotation, -70f, 70f);
 
-        Camera.main.transform.localRotation = Quaternion.Euler(_xRotation, 0f, 0f);
-        _playerBody.Rotate(Vector3.up * _mouseInput.x);
+        _yRotation += _mouseInput.x;
+        _yRotation = Mathf.Clamp(_yRotation, -70f, 70f);
+
+        Camera.main.transform.localRotation = Quaternion.Euler(_xRotation, _yRotation, 0f);
     }
 }

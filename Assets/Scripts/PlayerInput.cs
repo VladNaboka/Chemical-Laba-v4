@@ -9,7 +9,7 @@ public class PlayerInput : MonoBehaviour
     private bool _canAct = false;
 
     public float Horizontal { get; private set; }
-    public float Vertical { get; private set; }
+    //public float Vertical { get; private set; }
     public float MouseX { get; private set; }
     public float MouseY { get; private set; }
 
@@ -34,7 +34,7 @@ public class PlayerInput : MonoBehaviour
         if(_canAct)
         {
             Horizontal = Input.GetAxis("Horizontal");
-            Vertical = Input.GetAxis("Vertical");
+            //Vertical = Input.GetAxis("Vertical");
             _isLMBClicked = Input.GetMouseButtonDown(0);
         }
 

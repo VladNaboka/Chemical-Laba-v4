@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        _move = transform.right * _playerInput.Horizontal + transform.forward * _playerInput.Vertical;
+        _move = transform.right * _playerInput.Horizontal;
 
         _characterController.Move(_move * playerSpeed * Time.deltaTime);
         
