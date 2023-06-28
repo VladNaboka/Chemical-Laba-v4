@@ -4,22 +4,26 @@ using UnityEngine;
 
 public class OpenLevels : MonoBehaviour
 {
-    [SerializeField] private GameObject[] _levelLocks;
-    private int unlockedLevel = 1;
-    private void Awake()
-    {
-        if (PlayerPrefs.HasKey("UnlockedLevels"))
-            unlockedLevel = PlayerPrefs.GetInt("UnlockedLevels");
-        unlockedLevel =- 1;
+    public static OpenLevels instance;
 
+    private void Start()
+    {
+        if (instance == null)
+        { 
+            instance = this;
+        }
+        else if (instance == this)
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
     }
 
+    ///<summary>
+    ///Input here number of level you want to ulock. It will save in PlayerPrefs. Example: UnlockLevel(2) - unlock second level.
+    ///</summary>
     public void UnlockLevel(int levelNum)
     {
-        
-    }
-    public void NextLevel()
-    {
-
+        PlayerPrefs.SetInt("CompletedLevels", levelNum);
     }
 }
