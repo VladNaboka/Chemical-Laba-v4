@@ -15,7 +15,7 @@ public class DragController : MonoBehaviour
     private Ray _ray;
     private RaycastHit _hitInfo;
     private float _dragAndDropDelay = 0.3f;
-    private float _interactDelay;
+    [SerializeField] private float _interactDelay;
     private float _animationSpeed = 0.3f;
     private bool _isDragging = false;
     private bool _equipped = false;
