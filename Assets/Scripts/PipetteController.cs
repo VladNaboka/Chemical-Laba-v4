@@ -56,7 +56,6 @@ public class PipetteController : MonoBehaviour, IDragable, IPlaceable, IInteract
     private IEnumerator FillPipetteCoroutine(Transform parent)
     {
         transform.SetParent(parent);
-        transform.DOLocalRotate(Vector3.zero, 0.2f);
         transform.DOLocalMove(Vector3.zero, 0.2f);
         yield return new WaitForSeconds(0.2f);
         transform.DOLocalMove(new Vector3(0, -0.5f, 0), 0.1f).OnComplete(() => transform.DOLocalMove(Vector3.zero, 0.1f));

@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnitySimpleLiquid;
 
-public class FlaskController : MonoBehaviour, IDragable, IPlaceable, IInteractable
+public class ChemicalElementController : MonoBehaviour, IDragable, IPlaceable, IInteractable
 {
     [SerializeField] private LiquidContainer _liquidContainer;
     [SerializeField] private GameObject _hand;
@@ -36,9 +36,6 @@ public class FlaskController : MonoBehaviour, IDragable, IPlaceable, IInteractab
 
         if(hitInfo.collider.GetComponent<FlaskController>())
         StartCoroutine(PouringFlaskCourutine(parent, hitInfo));
-
-        if(hitInfo.collider.GetComponent<TapController>())
-        StartCoroutine(FillingWaterCoroutine(parent, hitInfo));
     }
 
     private IEnumerator PouringFlaskCourutine(Transform parent, RaycastHit hitInfo)
@@ -54,23 +51,6 @@ public class FlaskController : MonoBehaviour, IDragable, IPlaceable, IInteractab
         yield return new WaitForSeconds(0.8f);
         _liquidContainer.IsOpen = false;
         interactedFlaskLiquidContainer.IsOpen = false;
-        DragObject(0.2f);
-    }
-
-    private IEnumerator FillingWaterCoroutine(Transform parent, RaycastHit hitInfo)
-    {
-        LiquidContainer interactedFlaskLiquidContainer = hitInfo.collider.GetComponentInChildren<LiquidContainer>();
-
-        transform.SetParent(parent);
-        transform.DOLocalMove(Vector3.zero, 0.3f);
-        transform.DORotate(Vector3.zero, 0.3f);
-        yield return new WaitForSeconds(0.3f);
-        _liquidContainer.IsOpen = true;
-        interactedFlaskLiquidContainer.IsOpen = true;
-        yield return new WaitForSeconds(0.8f);
-        _liquidContainer.IsOpen = false;
-        interactedFlaskLiquidContainer.IsOpen = false;
-        interactedFlaskLiquidContainer.FillAmount = 100;
         DragObject(0.2f);
     }
 }
