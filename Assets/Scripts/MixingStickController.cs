@@ -8,10 +8,15 @@ public class MixingStickController : MonoBehaviour, IDragable, IPlaceable, IInte
 {
     [SerializeField] private GameObject _hand;
     [SerializeField] private float _placeYPosition;
+    private Animator _anim;
     private float _interactDelay = 1f;
-
     public float PlaceYPosition => _placeYPosition;
     public float InteractDelay => _interactDelay;
+
+    private void Awake()
+    {
+        _anim = GetComponent<Animator>();
+    }
 
     public void DragObject(float dragSpeed)
     {
@@ -46,7 +51,7 @@ public class MixingStickController : MonoBehaviour, IDragable, IPlaceable, IInte
         transform.DORotate(Vector3.zero, 0.3f);
         yield return new WaitForSeconds(0.3f);
         interactedFlaskLiquidContainer.IsOpen = true;
-
+        _anim.Play("MixingAnimation");
         yield return new WaitForSeconds(0.8f);
         interactedFlaskLiquidContainer.IsOpen = false;
         DragObject(0.2f);
