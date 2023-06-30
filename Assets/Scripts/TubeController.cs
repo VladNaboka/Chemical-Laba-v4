@@ -4,12 +4,13 @@ using UnityEngine;
 using DG.Tweening;
 using UnitySimpleLiquid;
 
-public class ChemicalElementController : MonoBehaviour, IDragable, IPlaceable, IInteractable
+public class TubeController : MonoBehaviour, IDragable, IPlaceable, IInteractable
 {
     [SerializeField] private LiquidContainer _liquidContainer;
     [SerializeField] private GameObject _hand;
     [SerializeField] private float _pouringDistance;
     [SerializeField] private float _placeYPosition;
+    private int _elementAmount = 1;
     private float _interactDelay = 1f;
     public float PlaceYPosition => _placeYPosition;
     public float InteractDelay => _interactDelay;
@@ -41,6 +42,8 @@ public class ChemicalElementController : MonoBehaviour, IDragable, IPlaceable, I
     private IEnumerator PouringFlaskCourutine(Transform parent, RaycastHit hitInfo)
     {
         LiquidContainer interactedFlaskLiquidContainer = hitInfo.collider.GetComponent<LiquidContainer>();
+
+        if(_liquidContainer.FillAmount > 0)
 
         transform.SetParent(parent);
         transform.DOLocalMove(transform.right * _pouringDistance, 0.3f);
