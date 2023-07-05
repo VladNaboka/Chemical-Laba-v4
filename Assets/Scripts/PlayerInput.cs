@@ -7,6 +7,7 @@ public class PlayerInput : MonoBehaviour
 {
     [SerializeField] private GlovesController _glovesController;
     private bool _canAct = false;
+    private bool _canLook = true;
 
     public float Horizontal { get; private set; }
     //public float Vertical { get; private set; }
@@ -21,12 +22,12 @@ public class PlayerInput : MonoBehaviour
 
     private void OnEnable()
     {
-        _glovesController.OnGlovesPutOn += ChangeLimitations;
+        _glovesController.OnGlovesPutOn += ChangeMovementLimitations;
     }
 
     private void OnDisable()
     {
-        _glovesController.OnGlovesPutOn -= ChangeLimitations;
+        _glovesController.OnGlovesPutOn -= ChangeMovementLimitations;
     }
 
     private void Update()
@@ -38,8 +39,11 @@ public class PlayerInput : MonoBehaviour
             _isLMBClicked = Input.GetMouseButtonDown(0);
         }
 
-        MouseX = Input.GetAxis("Mouse X");
-        MouseY = Input.GetAxis("Mouse Y");
+        if(_canLook)
+        {
+            MouseX = Input.GetAxis("Mouse X");
+            MouseY = Input.GetAxis("Mouse Y");
+        }
 
         _isEkeyClicked = Input.GetKeyDown(KeyCode.E);
 
@@ -54,8 +58,13 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    private void ChangeLimitations(bool canAct)
+    private void ChangeMovementLimitations(bool canAct)
     {
         _canAct = canAct;
+    }
+
+    private void ChangeLookLimitations(bool canLook)
+    {
+        _canLook = canLook;
     }
 }
