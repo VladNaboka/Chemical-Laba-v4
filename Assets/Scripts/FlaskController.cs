@@ -7,11 +7,11 @@ using UnitySimpleLiquid;
 public class FlaskController : MonoBehaviour, IDragable, IPlaceable, IInteractable
 {
     [SerializeField] private LiquidContainer _liquidContainer;
+    [SerializeField] private ElementContainer _elementContainer;
     [SerializeField] private GameObject _hand;
     [SerializeField] private float _pouringDistance;
     [SerializeField] private float _placeYPosition;
     private float _interactDelay = 1f;
-
     public float PlaceYPosition => _placeYPosition;
     public float InteractDelay => _interactDelay;
 
@@ -61,6 +61,7 @@ public class FlaskController : MonoBehaviour, IDragable, IPlaceable, IInteractab
     private IEnumerator FillingWaterCoroutine(Transform parent, RaycastHit hitInfo)
     {
         LiquidContainer interactedFlaskLiquidContainer = hitInfo.collider.GetComponentInChildren<LiquidContainer>();
+        _elementContainer.AddElement(ElementsList.H2O, 1);
 
         transform.SetParent(parent);
         transform.DOLocalMove(Vector3.zero, 0.3f);

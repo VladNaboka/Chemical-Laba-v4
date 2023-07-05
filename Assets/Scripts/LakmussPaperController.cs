@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class LakmussPaperController : MonoBehaviour
 {
+    [SerializeField] private ElementContainer _elementContainer;
     [SerializeField] private Color _color;
 
     [Range(0f, 1f)]
@@ -15,17 +16,10 @@ public class LakmussPaperController : MonoBehaviour
     {
         _rend = GetComponent<Renderer>();
     }
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.E))
-    //    {
-    //        ChangeColor();
-    //    }
-    //}
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Blob"))
+        if (collision.gameObject.CompareTag("Blob") && _elementContainer.IsSolutionDone())
         {
             ChangeColor();
             Destroy(collision.gameObject);

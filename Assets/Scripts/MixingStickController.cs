@@ -45,9 +45,12 @@ public class MixingStickController : MonoBehaviour, IDragable, IPlaceable, IInte
     private IEnumerator MixingCoroutine(Transform parent, RaycastHit hitInfo)
     {
         LiquidContainer interactedFlaskLiquidContainer = hitInfo.collider.GetComponent<LiquidContainer>();
+        ElementContainer elementContainer = hitInfo.collider.GetComponent<ElementContainer>();
+
+        elementContainer.MixElements(true);
 
         transform.SetParent(parent);
-        transform.DOLocalMove(Vector3.zero, 0.3f);
+        transform.DOLocalMove(new Vector3(0, -0.35f, 0), 0.3f);
         transform.DORotate(Vector3.zero, 0.3f);
         yield return new WaitForSeconds(0.3f);
         interactedFlaskLiquidContainer.IsOpen = true;

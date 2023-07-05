@@ -8,6 +8,7 @@ public class TubeController : MonoBehaviour, IDragable, IPlaceable, IInteractabl
 {
     [SerializeField] private LiquidContainer _liquidContainer;
     [SerializeField] private GameObject _hand;
+    [SerializeField] private ElementsList _elementType;
     [SerializeField] private float _pouringDistance;
     [SerializeField] private float _placeYPosition;
     private int _elementAmount = 1;
@@ -42,8 +43,12 @@ public class TubeController : MonoBehaviour, IDragable, IPlaceable, IInteractabl
     private IEnumerator PouringFlaskCourutine(Transform parent, RaycastHit hitInfo)
     {
         LiquidContainer interactedFlaskLiquidContainer = hitInfo.collider.GetComponent<LiquidContainer>();
+        ElementContainer elementContainer = hitInfo.collider.GetComponent<ElementContainer>();
 
         if(_liquidContainer.FillAmount > 0)
+        {
+            elementContainer.AddElement(_elementType, _elementAmount);
+        }
 
         transform.SetParent(parent);
         transform.DOLocalMove(transform.right * _pouringDistance, 0.3f);
