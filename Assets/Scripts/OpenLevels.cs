@@ -17,6 +17,7 @@ public class OpenLevels : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
+
     }
 
     ///<summary>
@@ -25,5 +26,10 @@ public class OpenLevels : MonoBehaviour
     public void UnlockLevel(int levelNum)
     {
         PlayerPrefs.SetInt("CompletedLevels", levelNum);
+    }
+    public void Win(int levelNm, GameObject gameObject)
+    {
+        gameObject.SetActive(true);
+        UnlockLevel(levelNm);
     }
 }

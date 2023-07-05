@@ -188,6 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _liquidContainer: {fileID: 42667478356141268}
+  _elementContainer: {fileID: 0}
   _hand: {fileID: 0}
   _pouringDistance: 0
   _placeYPosition: 0
