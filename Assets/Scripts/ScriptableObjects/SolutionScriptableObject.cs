@@ -17,11 +17,5 @@ public class SolutionScriptableObject : ScriptableObject
         {
             requiredElementsDictionary.Add(element, _proportion);
         }
-
-        foreach (KeyValuePair<ElementsList, int> pair in requiredElementsDictionary)
-        {
-            string log = string.Format("Key: {0}, Value: {1}", pair.Key, pair.Value);
-            Debug.Log(log);
-        }
     }
 }
