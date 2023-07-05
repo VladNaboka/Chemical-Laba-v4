@@ -5,6 +5,7 @@ using DG.Tweening;
 
 public class PipetteController : MonoBehaviour, IDragable, IPlaceable, IInteractable
 {
+    [SerializeField] private ElementContainer _elementContainer;
     [SerializeField] private GameObject _hand;
     [SerializeField] private GameObject _blob;
     [SerializeField] private Transform _spawnPosition;
@@ -13,6 +14,7 @@ public class PipetteController : MonoBehaviour, IDragable, IPlaceable, IInteract
 
     public float PlaceYPosition => _placeYPosition;
     public float InteractDelay => _interactDelay;
+    public bool ContainsRightSolution { get; private set; }
 
     public void DragObject(float dragSpeed)
     {
@@ -55,6 +57,9 @@ public class PipetteController : MonoBehaviour, IDragable, IPlaceable, IInteract
 
     private IEnumerator FillPipetteCoroutine(Transform parent)
     {
+        ContainsRightSolution = _elementContainer.IsSolutionDone();
+        Debug.Log("БУХРА: " + ContainsRightSolution);
+
         transform.SetParent(parent);
         transform.DOLocalMove(Vector3.zero, 0.2f);
         yield return new WaitForSeconds(0.2f);

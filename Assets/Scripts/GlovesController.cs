@@ -6,11 +6,11 @@ using UnityEngine;
 public class GlovesController : MonoBehaviour, IUsable
 {
     [SerializeField] private GameObject _glovesText;
-    public event Action OnGlovesPutOn = default;
+    public event Action<bool> OnGlovesPutOn = default;
 
     public void UseObject()
     {
-        OnGlovesPutOn?.Invoke();
+        OnGlovesPutOn?.Invoke(true);
         _glovesText.SetActive(false);
         gameObject.SetActive(false);
     }
