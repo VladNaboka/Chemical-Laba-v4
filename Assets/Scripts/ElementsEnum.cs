@@ -5,5 +5,9 @@ using UnityEngine;
 public enum ElementsList
 {
     H2O,
-    P2O3
+    P2O3,
+    CaO,
+    Lakmuss,
+    H2SO4,
+    CH3COONa
 }

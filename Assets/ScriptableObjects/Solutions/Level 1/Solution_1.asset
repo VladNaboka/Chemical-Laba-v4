@@ -16,3 +16,4 @@ MonoBehaviour:
   _proportion: 1
   hasRightSolution: 0
   rightSolutionMixed: 0
+  needsMixing: 1

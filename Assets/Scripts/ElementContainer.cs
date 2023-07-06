@@ -31,7 +31,7 @@ public class ElementContainer : MonoBehaviour
         CheckElementsDictionary();
         foreach (KeyValuePair<ElementsList, int> kvp in elementsDictionary)
         {
-            Debug.Log("Key = " + kvp.Key + "Value = " + kvp.Value);
+            Debug.Log("Key = " + kvp.Key + " " + "Value = " + kvp.Value);
         }
     }
 
@@ -41,13 +41,23 @@ public class ElementContainer : MonoBehaviour
         return;
     
         _isMixed = isMixed;
-        _solutionScriptableObject.rightSolutionMixed = _isMixed;
-        Debug.Log("ЭЛЕМЕНТЫ МИКСАНУТЫ: " + _solutionScriptableObject.rightSolutionMixed);
+        Debug.Log("ЭЛЕМЕНТЫ МИКСАНУТЫ: " + _isMixed);
     }
 
     public bool IsSolutionDone()
     {
-        return _hasRightSolution && _isMixed;
+        if(_solutionScriptableObject.needsMixing)
+        {
+            return _hasRightSolution && _isMixed;
+        }
+        else if(!_solutionScriptableObject.needsMixing)
+        {
+            return _hasRightSolution;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private void CheckElementsDictionary()
@@ -64,12 +74,10 @@ public class ElementContainer : MonoBehaviour
         }
 
         _hasRightSolution = CompareDictionaries(elementsDictionary, _solutionScriptableObject.requiredElementsDictionary);
-        _solutionScriptableObject.hasRightSolution = _hasRightSolution;
 
         if(!_hasRightSolution)
         {
             _isMixed = false;
-            _solutionScriptableObject.rightSolutionMixed = _isMixed;
         }
     }
 

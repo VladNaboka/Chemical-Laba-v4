@@ -6,7 +6,6 @@ using UnitySimpleLiquid;
 
 public class PipetteController : MonoBehaviour, IDragable, IPlaceable, IInteractable
 {
-    [SerializeField] private ElementContainer _elementContainer;
     [SerializeField] private GameObject _hand;
     [SerializeField] private GameObject _blob;
     [SerializeField] private Transform _spawnPosition;
@@ -30,7 +29,7 @@ public class PipetteController : MonoBehaviour, IDragable, IPlaceable, IInteract
         transform.DOKill();
         transform.SetParent(null);
         transform.DOMove(position, dropSpeed);
-        transform.DORotate(new Vector3(0, transform.eulerAngles.y, 90), dropSpeed);
+        transform.DORotate(new Vector3(90, transform.eulerAngles.y, 0), dropSpeed);
     }
 
     public void InteractObject(Transform parent, RaycastHit hitInfo)
@@ -60,7 +59,7 @@ public class PipetteController : MonoBehaviour, IDragable, IPlaceable, IInteract
     {
         LiquidContainer interactedFlaskLiquidContainer = hitInfo.collider.GetComponent<LiquidContainer>();
 
-        ContainsRightSolution = _elementContainer.IsSolutionDone();
+        ContainsRightSolution = hitInfo.collider.GetComponent<ElementContainer>().IsSolutionDone();
         Debug.Log("БУХРА: " + ContainsRightSolution);
 
         transform.SetParent(parent);

@@ -50,7 +50,7 @@ public class PlayerInput : MonoBehaviour
 
         _isEkeyClicked = Input.GetKeyDown(KeyCode.E);
 
-        if(_isLMBClicked)
+        if(_isLMBClicked && !_lockLook)
         {
             OnLMBClicked?.Invoke();
         }

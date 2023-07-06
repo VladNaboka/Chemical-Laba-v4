@@ -53,9 +53,9 @@ public class TubeController : MonoBehaviour, IDragable, IPlaceable, IInteractabl
         transform.SetParent(parent);
         transform.DOLocalMove(transform.right * _pouringDistance, 0.3f);
         transform.DORotate(new Vector3(0, transform.eulerAngles.y, 105), 0.3f);
-        interactedFlaskLiquidContainer.IsOpen = true;
         yield return new WaitForSeconds(0.2f);
         _liquidContainer.IsOpen = true;
+        interactedFlaskLiquidContainer.IsOpen = true;
         yield return new WaitForSeconds(0.8f);
         _liquidContainer.IsOpen = false;
         interactedFlaskLiquidContainer.IsOpen = false;

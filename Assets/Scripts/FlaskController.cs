@@ -66,8 +66,8 @@ public class FlaskController : MonoBehaviour, IDragable, IPlaceable, IInteractab
         transform.SetParent(parent);
         transform.DOLocalMove(Vector3.zero, 0.3f);
         transform.DORotate(Vector3.zero, 0.3f);
-        _liquidContainer.IsOpen = true;
         yield return new WaitForSeconds(0.3f);
+        _liquidContainer.IsOpen = true;
         interactedFlaskLiquidContainer.IsOpen = true;
         yield return new WaitForSeconds(0.8f);
         _liquidContainer.IsOpen = false;
