@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da787b7f87eb07c499095fa0e14367d9, type: 3}
   m_Name: Stage_1
   m_EditorClassIdentifier: 
-  _stageName: Red Lakmuuss Paper
+  _stageName: Red Lakmuss Paper
   _isCompleted: 0
