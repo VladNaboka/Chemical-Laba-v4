@@ -81,7 +81,8 @@ namespace UnitySimpleLiquid
 
             var tr = liquidContainer.transform;
             var pos = bottleneckPlane.normal * bottleneckPlane.distance + tr.position;
-            return pos;
+
+			return pos;
         }
 
 		private Vector3 GenerateBottleneckLowesPoint()
@@ -392,8 +393,8 @@ namespace UnitySimpleLiquid
         {
             // Update bottleneck and surface from last update
             bottleneckPlane = GenerateBottleneckPlane();
-            BottleneckPos = GenerateBottleneckPos();
-            surfacePlane = liquidContainer.GenerateSurfacePlane();
+			BottleneckPos = GenerateBottleneckPos();
+			surfacePlane = liquidContainer.GenerateSurfacePlane();
             BottleneckRadiusWorld = bottleneckRadius * transform.lossyScale.magnitude;
 
 			// Now check spliting, starting from the top
