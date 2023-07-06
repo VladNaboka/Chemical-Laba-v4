@@ -11,7 +11,7 @@ public class FlaskController : MonoBehaviour, IDragable, IPlaceable, IInteractab
     [SerializeField] private GameObject _hand;
     [SerializeField] private float _pouringDistance;
     [SerializeField] private float _placeYPosition;
-    private float _interactDelay = 1f;
+    private float _interactDelay = 1.5f;
     public float PlaceYPosition => _placeYPosition;
     public float InteractDelay => _interactDelay;
 
@@ -49,8 +49,8 @@ public class FlaskController : MonoBehaviour, IDragable, IPlaceable, IInteractab
         transform.SetParent(parent);
         transform.DOLocalMove(transform.right * _pouringDistance, 0.3f);
         transform.DORotate(new Vector3(0, transform.eulerAngles.y, 105), 0.3f);
-        yield return new WaitForSeconds(0.3f);
         _liquidContainer.IsOpen = true;
+        yield return new WaitForSeconds(0.3f);
         interactedFlaskLiquidContainer.IsOpen = true;
         yield return new WaitForSeconds(0.8f);
         _liquidContainer.IsOpen = false;
@@ -66,8 +66,8 @@ public class FlaskController : MonoBehaviour, IDragable, IPlaceable, IInteractab
         transform.SetParent(parent);
         transform.DOLocalMove(Vector3.zero, 0.3f);
         transform.DORotate(Vector3.zero, 0.3f);
-        yield return new WaitForSeconds(0.3f);
         _liquidContainer.IsOpen = true;
+        yield return new WaitForSeconds(0.3f);
         interactedFlaskLiquidContainer.IsOpen = true;
         yield return new WaitForSeconds(0.8f);
         _liquidContainer.IsOpen = false;

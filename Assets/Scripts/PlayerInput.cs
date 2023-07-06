@@ -6,8 +6,9 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     [SerializeField] private GlovesController _glovesController;
+    [SerializeField] private LevelDataManager _levelDataManager;
     private bool _canAct = false;
-    private bool _canLook = true;
+    private bool _lockLook = false;
 
     public float Horizontal { get; private set; }
     //public float Vertical { get; private set; }
@@ -23,11 +24,13 @@ public class PlayerInput : MonoBehaviour
     private void OnEnable()
     {
         _glovesController.OnGlovesPutOn += ChangeMovementLimitations;
+        _levelDataManager.onLevelCompleted += ChangeLookLimitations;
     }
 
     private void OnDisable()
     {
         _glovesController.OnGlovesPutOn -= ChangeMovementLimitations;
+        _levelDataManager.onLevelCompleted -= ChangeLookLimitations;
     }
 
     private void Update()
@@ -39,7 +42,7 @@ public class PlayerInput : MonoBehaviour
             _isLMBClicked = Input.GetMouseButtonDown(0);
         }
 
-        if(_canLook)
+        if(!_lockLook)
         {
             MouseX = Input.GetAxis("Mouse X");
             MouseY = Input.GetAxis("Mouse Y");
@@ -63,8 +66,9 @@ public class PlayerInput : MonoBehaviour
         _canAct = canAct;
     }
 
-    private void ChangeLookLimitations(bool canLook)
+    private void ChangeLookLimitations(bool lockLook)
     {
-        _canLook = canLook;
+        _lockLook = lockLook;
+        Cursor.lockState = CursorLockMode.None;
     }
 }

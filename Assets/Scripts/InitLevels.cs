@@ -6,6 +6,7 @@ public class InitLevels : MonoBehaviour
 {
     [SerializeField] private GameObject[] _lockLevel;
     private int _level = 1;
+    public static int currentLevelStatic;
 
     private void Awake()
     {

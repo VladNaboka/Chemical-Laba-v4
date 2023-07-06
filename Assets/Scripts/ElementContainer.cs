@@ -27,7 +27,12 @@ public class ElementContainer : MonoBehaviour
             elementsDictionary.Add(elementType, elementQuantity);
         }
 
+
         CheckElementsDictionary();
+        foreach (KeyValuePair<ElementsList, int> kvp in elementsDictionary)
+        {
+            Debug.Log("Key = " + kvp.Key + "Value = " + kvp.Value);
+        }
     }
 
     public void MixElements(bool isMixed)
@@ -47,7 +52,9 @@ public class ElementContainer : MonoBehaviour
 
     private void CheckElementsDictionary()
     {
+        if(elementsDictionary.Count > 1)
         _hasRightProportion = elementsDictionary.Values.All(x => x == elementsDictionary.Values.First());
+
         if(_hasRightProportion)
         {
             foreach (ElementsList key in elementsDictionary.Keys.ToList())

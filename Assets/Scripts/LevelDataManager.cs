@@ -1,10 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelCompletnessManager : MonoBehaviour
+public class LevelDataManager : MonoBehaviour
 {
     [SerializeField] private List<StageScriptableObject> _stagesScriptableObjects = new List<StageScriptableObject>();
+    [SerializeField] private GameObject _winPanel;
+    [SerializeField] private int _nextLevelIndex;
+
+    public event Action<bool> onLevelCompleted;
 
     private void Awake()
     {
@@ -35,7 +40,15 @@ public class LevelCompletnessManager : MonoBehaviour
         bool isLevelCompleted = _stagesScriptableObjects.TrueForAll(x => x._isCompleted);
         if(isLevelCompleted)
         {
-            Debug.Log("УРОВЕНЬ ПРОЙДЕН");
+            PlayerPrefs.SetInt("CompletedLevels", _nextLevelIndex);
+            StartCoroutine(SetWinDelay());
         }
+    }
+
+    private IEnumerator SetWinDelay()
+    {
+        yield return new WaitForSeconds(1.5f);
+        _winPanel.SetActive(true);
+        onLevelCompleted?.Invoke(true);
     }
 }

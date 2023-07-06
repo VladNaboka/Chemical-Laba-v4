@@ -11,7 +11,7 @@ public class PipetteController : MonoBehaviour, IDragable, IPlaceable, IInteract
     [SerializeField] private GameObject _blob;
     [SerializeField] private Transform _spawnPosition;
     [SerializeField] private float _placeYPosition;
-    private float _interactDelay = 0.6f;
+    private float _interactDelay = 1f;
 
     public float PlaceYPosition => _placeYPosition;
     public float InteractDelay => _interactDelay;
@@ -65,8 +65,8 @@ public class PipetteController : MonoBehaviour, IDragable, IPlaceable, IInteract
 
         transform.SetParent(parent);
         transform.DOLocalMove(Vector3.zero, 0.2f);
-        yield return new WaitForSeconds(0.2f);
         interactedFlaskLiquidContainer.IsOpen = true;
+        yield return new WaitForSeconds(0.2f);
         transform.DOLocalMove(new Vector3(0, -0.5f, 0), 0.1f).OnComplete(() => transform.DOLocalMove(Vector3.zero, 0.1f));
         yield return new WaitForSeconds(0.4f);
         interactedFlaskLiquidContainer.IsOpen = false;

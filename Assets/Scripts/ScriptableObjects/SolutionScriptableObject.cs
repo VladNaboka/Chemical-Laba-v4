@@ -18,7 +18,13 @@ public class SolutionScriptableObject : ScriptableObject
 
         foreach (ElementsList element in _requiredElements)
         {
+            if(!requiredElementsDictionary.ContainsKey(element))
             requiredElementsDictionary.Add(element, _proportion);
+        }
+
+        foreach (KeyValuePair<ElementsList, int> kvp in requiredElementsDictionary)
+        {
+            Debug.Log("Key = {0},Value = {1}"+ kvp.Key + kvp.Value);
         }
     }
 }

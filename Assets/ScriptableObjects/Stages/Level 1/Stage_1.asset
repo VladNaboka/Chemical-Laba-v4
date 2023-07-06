@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Stage_1
   m_EditorClassIdentifier: 
   _stageName: Red Lakmuss Paper
-  _isCompleted: 0
+  _isCompleted: 1

@@ -34,4 +34,10 @@ public class MouseLookController : MonoBehaviour
 
         Camera.main.transform.localRotation = Quaternion.Euler(_xRotation, _yRotation, 0f);
     }
+
+    private void ChangeLookLimitations(bool isLevelCompleted)
+    {
+        if(isLevelCompleted)
+        Cursor.lockState = CursorLockMode.None;
+    }
 }
