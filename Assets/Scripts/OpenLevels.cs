@@ -23,13 +23,9 @@ public class OpenLevels : MonoBehaviour
     ///<summary>
     ///Input here number of level you want to ulock. It will save in PlayerPrefs. Example: UnlockLevel(2) - unlock second level.
     ///</summary>
-    public void UnlockLevel(int levelNum)
+    public void Win(int levelNum, GameObject gObject)
     {
+        gObject.SetActive(true);
         PlayerPrefs.SetInt("CompletedLevels", levelNum);
-    }
-    public void Win(int levelNm, GameObject gameObject)
-    {
-        gameObject.SetActive(true);
-        UnlockLevel(levelNm);
     }
 }
