@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnitySimpleLiquid;
 
 public class PipetteController : MonoBehaviour, IDragable, IPlaceable, IInteractable
 {
@@ -40,7 +41,7 @@ public class PipetteController : MonoBehaviour, IDragable, IPlaceable, IInteract
         StartCoroutine(DropBlobCourutine(parent));
 
         if(hitInfo.collider.GetComponent<FlaskController>())
-        StartCoroutine(FillPipetteCoroutine(parent));
+        StartCoroutine(FillPipetteCoroutine(parent, hitInfo));
     }
 
     private IEnumerator DropBlobCourutine(Transform parent)
@@ -55,16 +56,20 @@ public class PipetteController : MonoBehaviour, IDragable, IPlaceable, IInteract
         DragObject(0.2f);
     }
 
-    private IEnumerator FillPipetteCoroutine(Transform parent)
+    private IEnumerator FillPipetteCoroutine(Transform parent, RaycastHit hitInfo)
     {
+        LiquidContainer interactedFlaskLiquidContainer = hitInfo.collider.GetComponent<LiquidContainer>();
+
         ContainsRightSolution = _elementContainer.IsSolutionDone();
         Debug.Log("БУХРА: " + ContainsRightSolution);
 
         transform.SetParent(parent);
         transform.DOLocalMove(Vector3.zero, 0.2f);
         yield return new WaitForSeconds(0.2f);
+        interactedFlaskLiquidContainer.IsOpen = true;
         transform.DOLocalMove(new Vector3(0, -0.5f, 0), 0.1f).OnComplete(() => transform.DOLocalMove(Vector3.zero, 0.1f));
         yield return new WaitForSeconds(0.4f);
+        interactedFlaskLiquidContainer.IsOpen = false;
         DragObject(0.2f);
     }
 }

@@ -11,8 +11,11 @@ public class SolutionScriptableObject : ScriptableObject
     public bool hasRightSolution;
     public bool rightSolutionMixed;
 
-    private void OnEnable()
+    public void SetDefaultValues()
     {
+        hasRightSolution = false;
+        rightSolutionMixed = false;
+
         foreach (ElementsList element in _requiredElements)
         {
             requiredElementsDictionary.Add(element, _proportion);
