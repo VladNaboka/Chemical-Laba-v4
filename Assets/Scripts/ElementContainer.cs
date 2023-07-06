@@ -13,8 +13,7 @@ public class ElementContainer : MonoBehaviour
 
     private void Awake()
     {
-        _solutionScriptableObject.hasRightSolution = false;
-        _solutionScriptableObject.rightSolutionMixed = false;
+        _solutionScriptableObject.SetDefaultValues();
     }
 
     public void AddElement(ElementsList elementType, int elementQuantity)
