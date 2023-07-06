@@ -844,7 +844,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Scene
+          m_StringArgument: PracticeScene1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &270434895
@@ -1660,7 +1660,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 463209200}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1622174188}
+        m_TargetAssemblyTypeName: SceneManager, Assembly-CSharp
+        m_MethodName: LoadOnBtnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: PracticeScene2
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &463209200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4158,7 +4170,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1349148060}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1622174188}
+        m_TargetAssemblyTypeName: SceneManager, Assembly-CSharp
+        m_MethodName: LoadOnBtnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: PracticeScene6
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1349148060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4972,7 +4996,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1494338213}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1622174188}
+        m_TargetAssemblyTypeName: SceneManager, Assembly-CSharp
+        m_MethodName: LoadOnBtnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: PracticeScene3
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1494338213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5615,7 +5651,7 @@ PrefabInstance:
     - target: {fileID: 8807066127619236064, guid: d56bbe6636024584a9272fe999403a72,
         type: 3}
       propertyPath: m_Name
-      value: SceneController
+      value: SceneManager
       objectReference: {fileID: 0}
     - target: {fileID: 8988622820367152448, guid: d56bbe6636024584a9272fe999403a72,
         type: 3}
@@ -6075,7 +6111,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1697920353}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1622174188}
+        m_TargetAssemblyTypeName: SceneManager, Assembly-CSharp
+        m_MethodName: LoadOnBtnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: PracticeScene4
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1697920353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7298,7 +7346,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2088503490}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1622174188}
+        m_TargetAssemblyTypeName: SceneManager, Assembly-CSharp
+        m_MethodName: LoadOnBtnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: PracticeScene5
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2088503490
 MonoBehaviour:
   m_ObjectHideFlags: 0
