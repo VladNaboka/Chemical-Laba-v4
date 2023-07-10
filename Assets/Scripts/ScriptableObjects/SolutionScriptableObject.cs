@@ -9,7 +9,7 @@ public class SolutionScriptableObject : ScriptableObject
     [SerializeField] private int _proportion;
     public Dictionary<ElementsList, int> requiredElementsDictionary { get; private set; } = new Dictionary<ElementsList, int>();
     public bool needsMixing;
-
+    
     public void SetDefaultValues()
     {
         foreach (ElementsList element in _requiredElements)

@@ -10,6 +10,7 @@ public class ElementContainer : MonoBehaviour
     private bool _hasRightProportion;
     private bool _hasRightSolution;
     private bool _isMixed;
+    private bool _isHeated;
 
     private void Awake()
     {
@@ -58,6 +59,15 @@ public class ElementContainer : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public void HeatElements(bool isHeated)
+    {
+        if(!_hasRightSolution)
+        return;
+    
+        _isHeated = isHeated;
+        Debug.Log("КОЛБОЧКА НАГРЕЛАСЬ: " + _isHeated);
     }
 
     private void CheckElementsDictionary()

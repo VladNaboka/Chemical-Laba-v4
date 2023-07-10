@@ -9,5 +9,6 @@ public enum ElementsList
     CaO,
     Lakmuss,
     H2SO4,
-    CH3COONa
+    CH3COONa,
+    Rocks
 }

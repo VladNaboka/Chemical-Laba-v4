@@ -9,13 +9,15 @@ public class DragController : MonoBehaviour
     [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private LayerMask _dropableLayer;
     [SerializeField] private LayerMask _interactableLayer;
+    [SerializeField] private LayerMask _connectableLayer;
     private IDragable _dragable;
     private IPlaceable _placeable;
     private IInteractable _interactable;
+    private IConnectable _connectable;
     private Ray _ray;
     private RaycastHit _hitInfo;
     private float _dragAndDropDelay = 0.3f;
-    [SerializeField] private float _interactDelay;
+    private float _interactDelay;
     private float _animationSpeed = 0.3f;
     private bool _isDragging = false;
     private bool _equipped = false;
@@ -27,6 +29,7 @@ public class DragController : MonoBehaviour
         _playerInput.OnLMBClicked += Place;
         _playerInput.OnEkeyClicked += Interact;
         _playerInput.OnEkeyClicked += Use;
+        _playerInput.OnEkeyClicked += Connect;
     }
 
     private void OnDisable()
@@ -35,6 +38,7 @@ public class DragController : MonoBehaviour
         _playerInput.OnLMBClicked -= Place;
         _playerInput.OnEkeyClicked -= Interact;
         _playerInput.OnEkeyClicked -= Use;
+        _playerInput.OnEkeyClicked -= Connect;
     }
 
     private void Update()
@@ -51,6 +55,14 @@ public class DragController : MonoBehaviour
         };
     }
 
+    private void ResetInterfaces()
+    {
+        _dragable = null;
+        _placeable = null;
+        _interactable = null;
+        _connectable = null;
+    }
+
     private void Drag()
     {
         if(!_isDragging && !_equipped)
@@ -59,6 +71,13 @@ public class DragController : MonoBehaviour
             _dragable = _hitInfo.collider.GetComponent<IDragable>();
             _placeable = _dragable as IPlaceable;
             _interactable = _dragable as IInteractable;
+            _connectable = _dragable as IConnectable;
+
+            if(_connectable != null &&  _connectable.IsConnected)
+            {
+                ResetInterfaces();
+                return;
+            }
 
             if(_dragable != null)
             {
@@ -81,14 +100,15 @@ public class DragController : MonoBehaviour
                 StartCoroutine(DragDelayCoroutine());
                 _equipped = false;
                 _canInteract = false;
+                ResetInterfaces();
             }
         }
     }
 
     private void Interact()
     {
-        if(_equipped && _canInteract)
-        if (Physics.Raycast(_ray, out _hitInfo, Mathf.Infinity, _interactableLayer))
+        if(_canInteract)
+        if (Physics.Raycast(_ray, out _hitInfo, Mathf.Infinity, _interactableLayer | _connectableLayer))
         {
             if(_interactable != null)
             {
@@ -96,7 +116,6 @@ public class DragController : MonoBehaviour
                 _interactDelay = _interactable.InteractDelay;
                 _interactable.InteractObject(childTransform, _hitInfo);
                 StartCoroutine(InteractDelayCoroutine());
-                _canInteract = false;
             }
         }
     }
@@ -114,6 +133,20 @@ public class DragController : MonoBehaviour
         }
     }
 
+    private void Connect()
+    {
+        if(Physics.Raycast(_ray, out _hitInfo, Mathf.Infinity, _connectableLayer))
+        {
+            if(_connectable != null)
+            {
+                _connectable.ConnectObject(_hitInfo);
+                StartCoroutine(DragDelayCoroutine());
+                _equipped = false;
+                ResetInterfaces();
+            }
+        }
+    }
+
     private IEnumerator DragDelayCoroutine()
     {
         yield return new WaitForSeconds(_dragAndDropDelay);
@@ -122,6 +155,7 @@ public class DragController : MonoBehaviour
 
     private IEnumerator InteractDelayCoroutine()
     {
+        _canInteract = false;
         yield return new WaitForSeconds(_interactDelay);
         _canInteract = true;
     }

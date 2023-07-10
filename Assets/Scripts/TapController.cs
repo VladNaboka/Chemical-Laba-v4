@@ -1,18 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnitySimpleLiquid;
 
 public class TapController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private LiquidContainer _liquidContainer;
 
-    // Update is called once per frame
-    void Update()
+    public void OpenTap(bool isOpen)
     {
-        
+        _liquidContainer.IsOpen = isOpen;
+        if(isOpen == false)
+        {
+            _liquidContainer.FillAmount = 100;
+        }
     }
 }
