@@ -187,10 +187,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9db95a026068f9449a6603b44af3181, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _stageScriptableObject: {fileID: 0}
   _liquidContainer: {fileID: 42667478356141268}
   _elementContainer: {fileID: 0}
   _hand: {fileID: 0}
-  _pouringDistance: 0
   _placeYPosition: 0
 --- !u!1 &4752763256003204913
 GameObject:
