@@ -37,7 +37,7 @@ public class LevelDataManager : MonoBehaviour
 
     private void CheckLevelCompletness()
     {
-        bool isLevelCompleted = _stagesScriptableObjects.TrueForAll(x => x._isCompleted);
+        bool isLevelCompleted = _stagesScriptableObjects.TrueForAll(x => x.isCompleted);
         if(isLevelCompleted)
         {
             PlayerPrefs.SetInt("CompletedLevels", _nextLevelIndex);

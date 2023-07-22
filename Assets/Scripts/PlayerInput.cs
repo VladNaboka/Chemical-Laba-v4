@@ -69,6 +69,7 @@ public class PlayerInput : MonoBehaviour
     private void ChangeLookLimitations(bool lockLook)
     {
         _lockLook = lockLook;
+        _canAct = false;
         Cursor.lockState = CursorLockMode.None;
     }
 }

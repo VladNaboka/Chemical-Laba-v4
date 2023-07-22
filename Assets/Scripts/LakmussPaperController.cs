@@ -25,7 +25,7 @@ public class LakmussPaperController : MonoBehaviour
         {
             if(_pipetteController.ContainsRightSolution)
             {
-                _stageScriptableObject._isCompleted = true;
+                _stageScriptableObject.isCompleted = true;
                 ChangeColor();
                 _stageScriptableObject.DoStageCallback();
             }

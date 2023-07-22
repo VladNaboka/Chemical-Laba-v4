@@ -53,6 +53,8 @@ public class DragController : MonoBehaviour
             origin = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0)),
             direction = Camera.main.transform.forward
         };
+
+        Debug.DrawRay(_ray.origin, _ray.direction * 100, Color.red);
     }
 
     private void ResetInterfaces()
@@ -73,7 +75,7 @@ public class DragController : MonoBehaviour
             _interactable = _dragable as IInteractable;
             _connectable = _dragable as IConnectable;
 
-            if(_connectable != null &&  _connectable.IsConnected)
+            if(_connectable != null && _connectable.IsConnected)
             {
                 ResetInterfaces();
                 return;

@@ -109,17 +109,7 @@ namespace UnitySimpleLiquid
         /// <summary>
 		/// Container volume in liters
 		/// </summary>
-        public float Volume
-		{
-            get
-			{
-				return volume;
-			}
-            set
-			{
-				volume = value;
-			}
-		}
+        [HideInInspector] public float Volume;
 
 		/// <summary>
 		/// Volume is fixed and not calculated automatically

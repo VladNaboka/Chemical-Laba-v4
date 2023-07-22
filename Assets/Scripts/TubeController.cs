@@ -12,7 +12,7 @@ public class TubeController : MonoBehaviour, IDragable, IPlaceable, IInteractabl
     [SerializeField] private float _pouringDistance;
     [SerializeField] private float _placeYPosition;
     private int _elementAmount = 1;
-    private float _interactDelay = 1.5f;
+    private float _interactDelay = 1.3f;
     public float PlaceYPosition => _placeYPosition;
     public float InteractDelay => _interactDelay;
 
@@ -36,11 +36,8 @@ public class TubeController : MonoBehaviour, IDragable, IPlaceable, IInteractabl
     {
         transform.DOKill();
 
-        if(hitInfo.collider.GetComponent<FlaskController>())
+        if(hitInfo.collider.GetComponent<IPoorable>() != null)
         StartCoroutine(PouringCourutine(parent, hitInfo));
-
-        if(hitInfo.collider.GetComponent<KippReactorFlaskController>())
-        StartCoroutine(PouringApparatusCourutine(parent, hitInfo));
     }
 
     private IEnumerator PouringCourutine(Transform parent, RaycastHit hitInfo)
@@ -56,29 +53,7 @@ public class TubeController : MonoBehaviour, IDragable, IPlaceable, IInteractabl
         transform.SetParent(parent);
         transform.DOLocalMove(transform.right * _pouringDistance, 0.3f);
         transform.DORotate(new Vector3(0, transform.eulerAngles.y, 105), 0.3f);
-        yield return new WaitForSeconds(0.2f);
-        _liquidContainer.IsOpen = true;
-        interactedFlaskLiquidContainer.IsOpen = true;
-        yield return new WaitForSeconds(0.8f);
-        _liquidContainer.IsOpen = false;
-        interactedFlaskLiquidContainer.IsOpen = false;
-        DragObject(0.2f);
-    }
-
-    private IEnumerator PouringApparatusCourutine(Transform parent, RaycastHit hitInfo)
-    {
-        LiquidContainer interactedFlaskLiquidContainer = hitInfo.collider.GetComponent<LiquidContainer>();
-        ElementContainer elementContainer = hitInfo.collider.GetComponent<ElementContainer>();
-
-        if(_liquidContainer.FillAmount > 0)
-        {
-            elementContainer.AddElement(_elementType, _elementAmount);
-        }
-
-        transform.SetParent(parent);
-        transform.DOLocalMove(transform.right * _pouringDistance, 0.3f);
-        transform.DORotate(new Vector3(0, 0, 105), 0.3f);
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.3f);
         _liquidContainer.IsOpen = true;
         interactedFlaskLiquidContainer.IsOpen = true;
         yield return new WaitForSeconds(0.8f);

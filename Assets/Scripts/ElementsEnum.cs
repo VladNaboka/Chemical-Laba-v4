@@ -10,5 +10,7 @@ public enum ElementsList
     Lakmuss,
     H2SO4,
     CH3COONa,
-    Rocks
+    Zn,
+    HCl,
+    PureHCl
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KippReactorFlaskController : MonoBehaviour
+public class KippReactorFlaskController : MonoBehaviour, IPoorable
 {
     [SerializeField] private ElementContainer _elementContainer;
     private KippVesselController _kippVesselController;
@@ -14,9 +14,9 @@ public class KippReactorFlaskController : MonoBehaviour
     [field: SerializeField] public GameObject VesselConnectPosition { get; private set; }
     [field: SerializeField] public GameObject VentTubeConnectPosition { get; private set; }
 
-    public void AssignVessel(KippVesselController kippUpperVesselController, ElementContainer vesselElementContainer)
+    public void AssignVessel(KippVesselController kippVesselController, ElementContainer vesselElementContainer)
     {
-        _kippVesselController = kippUpperVesselController;
+        _kippVesselController = kippVesselController;
         _vesselElementContainer = vesselElementContainer;
 
         if(_kippVesselController != null)

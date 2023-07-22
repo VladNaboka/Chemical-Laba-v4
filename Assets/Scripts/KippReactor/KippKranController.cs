@@ -7,10 +7,11 @@ using UnitySimpleLiquid;
 
 public class KippKranController : MonoBehaviour, IUsable
 {
-    [SerializeField] private LiquidContainer _liquidContainer;
     [SerializeField] private KippVentTubeController _kippVentTubeController;
     private KippReactorFlaskController _kippReactorFlaskController;
-    private bool _isOpen = false;
+    public bool _isOpen = false;
+
+    public event Action<bool> onKippKranUsed;
 
     private void OnEnable()
     {
@@ -26,31 +27,23 @@ public class KippKranController : MonoBehaviour, IUsable
     {
         transform.DOKill();
 
+        if(_kippReactorFlaskController != null && _kippReactorFlaskController.IsAllPartsDone())
         _isOpen = !_isOpen;
+
+        onKippKranUsed?.Invoke(_isOpen);
 
         if(_isOpen)
         {
             transform.DOLocalRotate(new Vector3(0, 0, 0), 0.3f);
-            CheckKippIntegrity();
         }
         else
         {
             transform.DOLocalRotate(new Vector3(0, -90, 0), 0.3f);
-            CheckKippIntegrity();
         }
     }
 
     private void OnVentTubeConnected(KippReactorFlaskController kippReactorFlaskController)
     {
         _kippReactorFlaskController = kippReactorFlaskController;
-        CheckKippIntegrity();
-    }
-
-    private void CheckKippIntegrity()
-    {
-        if(_kippReactorFlaskController.IsAllPartsDone())
-        {
-            _liquidContainer.IsOpen = _isOpen;
-        }
     }
 }

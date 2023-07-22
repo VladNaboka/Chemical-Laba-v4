@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class KippVesselController : MonoBehaviour, IDragable, IPlaceable, IConnectable
+public class KippVesselController : MonoBehaviour, IDragable, IPlaceable, IConnectable, IPoorable
 {
     [SerializeField] ElementContainer _elementContainer;
     [SerializeField] private GameObject _hand;

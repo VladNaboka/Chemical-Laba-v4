@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 using UnitySimpleLiquid;
+using DG.Tweening;
 
-public class FlaskController : MonoBehaviour, IDragable, IPlaceable, IInteractable, IPoorable
+public class GazFlaskController : MonoBehaviour, IDragable, IPlaceable, IInteractable, IPoorable
 {
+    [SerializeField] private StageScriptableObject _stageScriptableObject;
     [SerializeField] private LiquidContainer _liquidContainer;
     [SerializeField] private ElementContainer _elementContainer;
     [SerializeField] private GameObject _hand;
+    [SerializeField] private Vector3 _rotation;
     [SerializeField] private float _placeYPosition;
     private float _interactDelay = 1.5f;
     public float PlaceYPosition => _placeYPosition;
@@ -19,7 +21,7 @@ public class FlaskController : MonoBehaviour, IDragable, IPlaceable, IInteractab
         transform.DOKill();
         transform.SetParent(_hand.transform);
         transform.DOLocalMove(Vector3.zero, dragSpeed);
-        transform.DOLocalRotate(Vector3.zero, dragSpeed);
+        transform.DOLocalRotate(_rotation, dragSpeed);
     }
 
     public void PlaceObject(Vector3 position, float dropSpeed)
@@ -27,14 +29,14 @@ public class FlaskController : MonoBehaviour, IDragable, IPlaceable, IInteractab
         transform.DOKill();
         transform.SetParent(null);
         transform.DOMove(position, dropSpeed);
-        transform.DORotate(new Vector3(0, 0, 0), dropSpeed);
+        transform.DORotate(_rotation, dropSpeed);
     }
 
     public void InteractObject(Transform parent, RaycastHit hitInfo)
     {
         transform.DOKill();
 
-        if(hitInfo.collider.GetComponent<IFlowable>() != null)
+        if(hitInfo.collider.GetComponent<IGazable>() != null)
         StartCoroutine(FillingElementCoroutine(parent, hitInfo));
 
         if(hitInfo.collider.GetComponent<HeaterController>())
@@ -43,18 +45,17 @@ public class FlaskController : MonoBehaviour, IDragable, IPlaceable, IInteractab
 
     private IEnumerator FillingElementCoroutine(Transform parent, RaycastHit hitInfo)
     {
-        IFlowable flowable = hitInfo.collider.GetComponent<IFlowable>();
-        _elementContainer.AddElement(flowable.GetElement(), flowable.Amount);
+        IGazable gazable = hitInfo.collider.GetComponent<IGazable>();
+
+        if(gazable.IsGazReady)
+        _elementContainer.AddElement(gazable.GetElement(), gazable.Amount);
 
         transform.SetParent(parent);
         transform.DOLocalMove(Vector3.zero, 0.3f);
-        transform.DORotate(Vector3.zero, 0.3f);
+        transform.DORotate(_rotation, 0.3f);
         yield return new WaitForSeconds(0.3f);
-        _liquidContainer.IsOpen = true;
-        flowable.OpenTap(true);
+        _liquidContainer.FillAmount = 100;
         yield return new WaitForSeconds(0.8f);
-        _liquidContainer.IsOpen = false;
-        flowable.OpenTap(false);
         DragObject(0.2f);
     }
 
@@ -65,11 +66,17 @@ public class FlaskController : MonoBehaviour, IDragable, IPlaceable, IInteractab
 
         transform.SetParent(parent);
         transform.DOLocalMove(Vector3.zero, 0.3f);
-        transform.DORotate(Vector3.zero, 0.3f);
+        transform.DORotate(_rotation, 0.3f);
 
-        yield return new WaitForSeconds(0.8f);
+        if(_elementContainer.IsSolutionDone())
+        {
+            _stageScriptableObject.isCompleted = true;
+            _stageScriptableObject.DoStageCallback();
+        }
         
+        yield return new WaitForSeconds(0.8f);
         interactedHeaterController.EnableParticle(false);
+
         DragObject(0.2f);
     } 
 }
