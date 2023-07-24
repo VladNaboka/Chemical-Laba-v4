@@ -69,7 +69,16 @@ public class PlayerInput : MonoBehaviour
     private void ChangeLookLimitations(bool lockLook)
     {
         _lockLook = lockLook;
-        _canAct = false;
+        ChangeMovementLimitations(false);
+        SetInputsToZero();
         Cursor.lockState = CursorLockMode.None;
+    }
+
+    private void SetInputsToZero()
+    {
+        Horizontal = 0;
+        //Vertical = 0;
+        MouseX = 0;
+        MouseY = 0;
     }
 }

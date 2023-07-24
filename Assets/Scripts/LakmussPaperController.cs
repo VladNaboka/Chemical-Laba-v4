@@ -25,9 +25,8 @@ public class LakmussPaperController : MonoBehaviour
         {
             if(_pipetteController.ContainsRightSolution)
             {
-                _stageScriptableObject.isCompleted = true;
+                _stageScriptableObject.DoStageCallback(true);
                 ChangeColor();
-                _stageScriptableObject.DoStageCallback();
             }
 
             Destroy(collision.gameObject);

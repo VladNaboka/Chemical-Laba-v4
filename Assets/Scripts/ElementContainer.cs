@@ -5,31 +5,41 @@ using UnityEngine;
 
 public class ElementContainer : MonoBehaviour
 {
-    [SerializeField] private SolutionScriptableObject _solutionScriptableObject;
-    private Dictionary<ElementsList, int> elementsDictionary = new Dictionary<ElementsList, int>();
+    [SerializeField] private List<SolutionScriptableObject> _possibleSolutionScriptableObjects = new List<SolutionScriptableObject>();
+    [SerializeField] private StageScriptableObject _stageScriptableObject;
+    [SerializeField] private List<ElementsList> _alreadyInsideElements = new List<ElementsList>();
+    private SolutionScriptableObject _solutionScriptableObject;
+    private Dictionary<ElementsList, int> _elementsDictionary = new Dictionary<ElementsList, int>();
+    private Dictionary<ElementsList, int> _heatedElementsDictionary = new Dictionary<ElementsList, int>();
     private bool _hasRightProportion;
     private bool _hasRightSolution;
     private bool _isMixed;
 
     private void Awake()
     {
-        _solutionScriptableObject.SetDefaultValues();
+        foreach (SolutionScriptableObject solution in _possibleSolutionScriptableObjects)
+        {
+            solution.SetDefaultValues();
+        }
+
+        if(_alreadyInsideElements.Count > 0)
+            foreach (ElementsList element in _alreadyInsideElements)
+                AddElement(element, 1);
     }
 
     public void AddElement(ElementsList elementType, int elementQuantity)
     {
-        if(elementsDictionary.ContainsKey(elementType))
+        if(_elementsDictionary.ContainsKey(elementType))
         {
-            elementsDictionary[elementType] += elementQuantity;
+            _elementsDictionary[elementType] += elementQuantity;
         }
         else
         {
-            elementsDictionary.Add(elementType, elementQuantity);
+            _elementsDictionary.Add(elementType, elementQuantity);
         }
 
-
         CheckElementsDictionary();
-        foreach (KeyValuePair<ElementsList, int> kvp in elementsDictionary)
+        foreach (KeyValuePair<ElementsList, int> kvp in _elementsDictionary)
         {
             Debug.Log("Key = " + kvp.Key + " " + "Value = " + kvp.Value);
         }
@@ -44,41 +54,67 @@ public class ElementContainer : MonoBehaviour
         Debug.Log("ЭЛЕМЕНТЫ МИКСАНУТЫ: " + _isMixed);
     }
 
+    public void HeatElements()
+    {
+        _heatedElementsDictionary = AddDictionaries(_heatedElementsDictionary, _elementsDictionary);
+        _elementsDictionary.Clear();
+        Debug.Log("ЭЛЕМЕНТЫ НАГРЕТЫ");
+    }
+
     public bool IsSolutionDone()
     {
-        if(_solutionScriptableObject.needsMixing)
+        if(_solutionScriptableObject == null)
+            return false;
+
+        if(_solutionScriptableObject.hardElement)
+        {
+            return CompareDictionaries(_elementsDictionary, _solutionScriptableObject.requiredElementsDictionary) 
+                && CompareDictionaries(_heatedElementsDictionary, _solutionScriptableObject.requiredHeatedElementsDictionary);
+        }
+        else if (_solutionScriptableObject.needsMixing)
         {
             return _hasRightSolution && _isMixed;
         }
-        else if(!_solutionScriptableObject.needsMixing)
+        else
         {
             return _hasRightSolution;
         }
-        else
-        {
-            return false;
-        }
+    }
+
+    public void CheckStage()
+    {
+        if(_stageScriptableObject != null)
+        _stageScriptableObject.DoStageCallback(IsSolutionDone());
     }
 
     private void CheckElementsDictionary()
     {
-        if(elementsDictionary.Count == _solutionScriptableObject.requiredElementsDictionary.Count)
-        _hasRightProportion = elementsDictionary.Values.All(x => x == elementsDictionary.Values.First());
+        if(_solutionScriptableObject == null)
+        {
+            _solutionScriptableObject = _possibleSolutionScriptableObjects.Find(x => CompareDictionaryKeys(_elementsDictionary, x.requiredElementsDictionary));
+        }
+
+        if(_elementsDictionary.Count == _solutionScriptableObject.requiredElementsDictionary.Count && !_solutionScriptableObject.hardElement)
+        _hasRightProportion = _elementsDictionary.Values.All(x => x == _elementsDictionary.Values.First());
 
         if(_hasRightProportion)
         {
-            foreach (ElementsList key in elementsDictionary.Keys.ToList())
+            foreach (ElementsList key in _elementsDictionary.Keys.ToList())
             {
-                elementsDictionary[key] = 1;
+                _elementsDictionary[key] = 1;
             }
         }
 
-        _hasRightSolution = CompareDictionaries(elementsDictionary, _solutionScriptableObject.requiredElementsDictionary);
+        _hasRightSolution = CompareDictionaries(_elementsDictionary, _solutionScriptableObject.requiredElementsDictionary);
+        _solutionScriptableObject.isSolutionDone = _hasRightSolution;
 
         if(!_hasRightSolution)
         {
             _isMixed = false;
         }
+
+        if(_stageScriptableObject != null)
+        _stageScriptableObject.DoStageCallback(IsSolutionDone());
     }
 
     public bool CompareDictionaries<TKey, TValue>(Dictionary<TKey, TValue> dict1, Dictionary<TKey, TValue> dict2)
@@ -97,4 +133,36 @@ public class ElementContainer : MonoBehaviour
 		}
 		return true;
 	}
+
+    public bool CompareDictionaryKeys<TKey, TValue>(Dictionary<TKey, TValue> dict1, Dictionary<TKey, TValue> dict2)
+    {
+        // Получить множество ключей для обоих словарей
+        var keys1 = new HashSet<TKey>(dict1.Keys);
+        var keys2 = new HashSet<TKey>(dict2.Keys);
+    
+        // Проверить, есть ли общие ключи в обоих множествах
+        return keys1.Overlaps(keys2);
+    }
+
+    Dictionary<ElementsList, int> AddDictionaries(Dictionary<ElementsList, int> dict1, Dictionary<ElementsList, int> dict2)
+    {
+        Dictionary<ElementsList, int> result = new Dictionary<ElementsList, int>(dict1); // Создаем копию первого словаря
+
+        // Проходимся по элементам второго словаря
+        foreach (KeyValuePair<ElementsList, int> kvp in dict2)
+        {
+            // Если ключ уже существует в результирующем словаре, то складываем значения
+            if (result.ContainsKey(kvp.Key))
+            {
+                result[kvp.Key] += kvp.Value;
+            }
+            else
+            {
+                // Если ключа нет в результирующем словаре, просто добавляем его
+                result.Add(kvp.Key, kvp.Value);
+            }
+        }
+
+        return result;
+    }
 }

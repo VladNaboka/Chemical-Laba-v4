@@ -56,6 +56,7 @@ public class TubeController : MonoBehaviour, IDragable, IPlaceable, IInteractabl
         yield return new WaitForSeconds(0.3f);
         _liquidContainer.IsOpen = true;
         interactedFlaskLiquidContainer.IsOpen = true;
+        elementContainer.CheckStage();
         yield return new WaitForSeconds(0.8f);
         _liquidContainer.IsOpen = false;
         interactedFlaskLiquidContainer.IsOpen = false;

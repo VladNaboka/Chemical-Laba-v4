@@ -67,9 +67,11 @@ public class FlaskController : MonoBehaviour, IDragable, IPlaceable, IInteractab
         transform.DOLocalMove(Vector3.zero, 0.3f);
         transform.DORotate(Vector3.zero, 0.3f);
 
+        _elementContainer.HeatElements();
+
         yield return new WaitForSeconds(0.8f);
         
         interactedHeaterController.EnableParticle(false);
         DragObject(0.2f);
-    } 
+    }
 }

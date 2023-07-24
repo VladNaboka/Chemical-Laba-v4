@@ -60,9 +60,8 @@ public class DragableLakmussController : MonoBehaviour, IDragable, IPlaceable, I
         transform.DOLocalMove(new Vector3(0, -0.5f, 0), 0.5f);
         if(elementContainer.IsSolutionDone())
         {
-            _stageScriptableObject.isCompleted = true;
+            _stageScriptableObject.DoStageCallback(true);
             ChangeColor();
-            _stageScriptableObject.DoStageCallback();
         }
         yield return new WaitForSeconds(0.5f);
         transform.DOLocalMove(Vector3.zero, 0.5f);

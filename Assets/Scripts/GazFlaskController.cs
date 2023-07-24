@@ -9,6 +9,7 @@ public class GazFlaskController : MonoBehaviour, IDragable, IPlaceable, IInterac
     [SerializeField] private StageScriptableObject _stageScriptableObject;
     [SerializeField] private LiquidContainer _liquidContainer;
     [SerializeField] private ElementContainer _elementContainer;
+    [SerializeField] private AudioSource _audioSource;
     [SerializeField] private GameObject _hand;
     [SerializeField] private Vector3 _rotation;
     [SerializeField] private float _placeYPosition;
@@ -54,7 +55,10 @@ public class GazFlaskController : MonoBehaviour, IDragable, IPlaceable, IInterac
         transform.DOLocalMove(Vector3.zero, 0.3f);
         transform.DORotate(_rotation, 0.3f);
         yield return new WaitForSeconds(0.3f);
+
+        if(gazable.IsGazReady)
         _liquidContainer.FillAmount = 100;
+
         yield return new WaitForSeconds(0.8f);
         DragObject(0.2f);
     }
@@ -68,11 +72,12 @@ public class GazFlaskController : MonoBehaviour, IDragable, IPlaceable, IInterac
         transform.DOLocalMove(Vector3.zero, 0.3f);
         transform.DORotate(_rotation, 0.3f);
 
+        _stageScriptableObject.DoStageCallback(_elementContainer.IsSolutionDone());
+
+        yield return new WaitForSeconds(0.4f);
+
         if(_elementContainer.IsSolutionDone())
-        {
-            _stageScriptableObject.isCompleted = true;
-            _stageScriptableObject.DoStageCallback();
-        }
+            _audioSource.Play();
         
         yield return new WaitForSeconds(0.8f);
         interactedHeaterController.EnableParticle(false);

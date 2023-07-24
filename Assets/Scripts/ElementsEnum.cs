@@ -12,5 +12,12 @@ public enum ElementsList
     CH3COONa,
     Zn,
     HCl,
-    PureHCl
+    PureHCl,
+    NaOH,
+    AlCl3,
+    NH3,
+    MgSO4,
+    FeSO4,
+    CuSO4,
+    NH4Cl
 }

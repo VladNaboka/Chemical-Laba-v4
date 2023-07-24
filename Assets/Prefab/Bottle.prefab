@@ -142,6 +142,7 @@ MonoBehaviour:
   liquidColor: {r: 0.46844962, g: 0.7200962, b: 0.8207547, a: 0.28627452}
   fillAmountPercent: 0.653
   customVolume: 0
+  Volume: 0
 --- !u!136 &4259723744330242144
 CapsuleCollider:
   m_ObjectHideFlags: 0

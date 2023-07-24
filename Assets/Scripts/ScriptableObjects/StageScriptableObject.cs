@@ -15,8 +15,9 @@ public class StageScriptableObject : ScriptableObject
         isCompleted = false;
     }
 
-    public void DoStageCallback()
+    public void DoStageCallback(bool isCompleted)
     {
+        this.isCompleted = isCompleted;
         onStageCompleted?.Invoke();
     }
 }
