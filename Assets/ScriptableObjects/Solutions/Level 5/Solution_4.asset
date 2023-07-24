@@ -16,4 +16,5 @@ MonoBehaviour:
   _requiredHeatedElements: 0a000000
   _proportion: 1
   needsMixing: 0
-  hardElement: 1
+  hardElement: 0
+  isSolutionDone: 1

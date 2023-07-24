@@ -8,7 +8,7 @@ public class ElementContainer : MonoBehaviour
     [SerializeField] private List<SolutionScriptableObject> _possibleSolutionScriptableObjects = new List<SolutionScriptableObject>();
     [SerializeField] private StageScriptableObject _stageScriptableObject;
     [SerializeField] private List<ElementsList> _alreadyInsideElements = new List<ElementsList>();
-    private SolutionScriptableObject _solutionScriptableObject;
+    [SerializeField]private SolutionScriptableObject _solutionScriptableObject;
     private Dictionary<ElementsList, int> _elementsDictionary = new Dictionary<ElementsList, int>();
     private Dictionary<ElementsList, int> _heatedElementsDictionary = new Dictionary<ElementsList, int>();
     private bool _hasRightProportion;
@@ -89,10 +89,10 @@ public class ElementContainer : MonoBehaviour
 
     private void CheckElementsDictionary()
     {
+        _solutionScriptableObject = _possibleSolutionScriptableObjects.Find(x => CompareDictionaryKeys(_elementsDictionary, x.requiredElementsDictionary));
+        
         if(_solutionScriptableObject == null)
-        {
-            _solutionScriptableObject = _possibleSolutionScriptableObjects.Find(x => CompareDictionaryKeys(_elementsDictionary, x.requiredElementsDictionary));
-        }
+            return;
 
         if(_elementsDictionary.Count == _solutionScriptableObject.requiredElementsDictionary.Count && !_solutionScriptableObject.hardElement)
         _hasRightProportion = _elementsDictionary.Values.All(x => x == _elementsDictionary.Values.First());
@@ -136,12 +136,17 @@ public class ElementContainer : MonoBehaviour
 
     public bool CompareDictionaryKeys<TKey, TValue>(Dictionary<TKey, TValue> dict1, Dictionary<TKey, TValue> dict2)
     {
-        // Получить множество ключей для обоих словарей
-        var keys1 = new HashSet<TKey>(dict1.Keys);
-        var keys2 = new HashSet<TKey>(dict2.Keys);
-    
-        // Проверить, есть ли общие ключи в обоих множествах
-        return keys1.Overlaps(keys2);
+        if (dict1 == dict2) return true;
+        if ((dict1 == null) || (dict2 == null)) return false;
+        if (dict1.Count != dict2.Count) return false;
+
+        var keyComparer = EqualityComparer<TKey>.Default;
+
+        foreach (var key in dict1.Keys)
+        {
+            if (!dict2.ContainsKey(key)) return false;
+        }
+        return true;
     }
 
     Dictionary<ElementsList, int> AddDictionaries(Dictionary<ElementsList, int> dict1, Dictionary<ElementsList, int> dict2)

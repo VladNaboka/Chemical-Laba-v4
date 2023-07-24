@@ -17,3 +17,4 @@ MonoBehaviour:
   _proportion: 1
   needsMixing: 0
   hardElement: 0
+  isSolutionDone: 0
