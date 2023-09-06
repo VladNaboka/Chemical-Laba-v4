@@ -23,8 +23,8 @@ public class MouseLookController : MonoBehaviour
 
     private void Look()
     {
-        _mouseInput.x = _playerInput.MouseX * _mouseSensitivity * Time.deltaTime; 
-        _mouseInput.y = _playerInput.MouseY * _mouseSensitivity * Time.deltaTime; 
+        _mouseInput.x = _playerInput.MouseX * _mouseSensitivity; 
+        _mouseInput.y = _playerInput.MouseY * _mouseSensitivity; 
 
         _xRotation -= _mouseInput.y;
         _xRotation = Mathf.Clamp(_xRotation, -70f, 70f);
