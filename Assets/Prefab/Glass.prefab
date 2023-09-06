@@ -339,6 +339,7 @@ MonoBehaviour:
   liquidColor: {r: 0.5, g: 0.5, b: 0.5, a: 0}
   fillAmountPercent: 0
   customVolume: 0
+  Volume: 0
 --- !u!65 &4422596581166983962
 BoxCollider:
   m_ObjectHideFlags: 0
