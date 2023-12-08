@@ -41,11 +41,6 @@ public class DragController : MonoBehaviour
         _playerInput.OnEkeyClicked -= Connect;
     }
 
-    private void Update()
-    {
-        CreateRay();
-    }
-
     private void CreateRay()
     {
         _ray = new Ray
@@ -67,6 +62,7 @@ public class DragController : MonoBehaviour
 
     private void Drag()
     {
+        CreateRay();
         if(!_isDragging && !_equipped)
         if(Physics.Raycast(_ray, out _hitInfo))
         {
@@ -93,6 +89,7 @@ public class DragController : MonoBehaviour
 
     private void Place()
     {
+        CreateRay();
         if(_isDragging && _equipped && _canInteract)
         if (Physics.Raycast(_ray, out _hitInfo, Mathf.Infinity, _dropableLayer))
         {
@@ -109,6 +106,7 @@ public class DragController : MonoBehaviour
 
     private void Interact()
     {
+        CreateRay();
         if(_canInteract)
         if (Physics.Raycast(_ray, out _hitInfo, Mathf.Infinity, _interactableLayer | _connectableLayer))
         {
@@ -124,6 +122,7 @@ public class DragController : MonoBehaviour
 
     private void Use()
     {
+        CreateRay();
         if(Physics.Raycast(_ray, out _hitInfo))
         {
             IUsable usable = _hitInfo.collider.GetComponent<IUsable>();
@@ -137,6 +136,7 @@ public class DragController : MonoBehaviour
 
     private void Connect()
     {
+        CreateRay();
         if(Physics.Raycast(_ray, out _hitInfo, Mathf.Infinity, _connectableLayer))
         {
             if(_connectable != null)

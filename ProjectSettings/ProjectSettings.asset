@@ -44,10 +44,10 @@ PlayerSettings:
   m_HolographicTrackingLossScreen: {fileID: 0}
   defaultScreenWidth: 1024
   defaultScreenHeight: 768
-  defaultScreenWidthWeb: 960
-  defaultScreenHeightWeb: 600
+  defaultScreenWidthWeb: 1920
+  defaultScreenHeightWeb: 1080
   m_StereoRenderingPath: 0
-  m_ActiveColorSpace: 1
+  m_ActiveColorSpace: 0
   m_MTRendering: 1
   mipStripping: 0
   numberOfMipsStripped: 0
@@ -134,7 +134,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.1.0
+  bundleVersion: 1.0.0.0
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -510,13 +510,24 @@ PlayerSettings:
   - m_BuildTarget: AndroidPlayer
     m_APIs: 150000000b000000
     m_Automatic: 1
+  - m_BuildTarget: WebGLSupport
+    m_APIs: 0b000000
+    m_Automatic: 0
   m_BuildTargetVRSettings: []
   m_DefaultShaderChunkSizeInMB: 16
   m_DefaultShaderChunkCount: 0
   openGLRequireES31: 0
   openGLRequireES31AEP: 0
   openGLRequireES32: 0
-  m_TemplateCustomTags: {}
+  m_TemplateCustomTags:
+    BANNER_DYNAMIC_1: 
+    BANNER_DYNAMIC_2: 
+    BANNER_STATIC_1: 
+    BANNER_STATIC_2: 
+    BAR_COLOR: 48D1CC
+    SET_1_TO_DISABLE_FIXEDSCREEN_ON_DESKTOP: 
+    SET_1_TO_DISABLE_FIXEDSCREEN_ON_MOBILE: 
+    SET_1_TO_DISABLE_SHADOWS: 
   mobileMTRendering:
     Android: 1
     iPhone: 1
@@ -524,6 +535,8 @@ PlayerSettings:
   m_BuildTargetGroupLightmapEncodingQuality:
   - m_BuildTarget: Android
     m_EncodingQuality: 1
+  - m_BuildTarget: WebGL
+    m_EncodingQuality: 0
   m_BuildTargetGroupLightmapSettings: []
   m_BuildTargetNormalMapEncoding:
   - m_BuildTarget: Android
@@ -771,16 +784,17 @@ PlayerSettings:
   webGLDebugSymbols: 0
   webGLEmscriptenArgs: 
   webGLModulesDirectory: 
-  webGLTemplate: APPLICATION:Default
+  webGLTemplate: PROJECT:ChikasYG1.5
   webGLAnalyzeBuildSize: 0
   webGLUseEmbeddedResources: 0
   webGLCompressionFormat: 0
   webGLWasmArithmeticExceptions: 0
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
-  webGLDecompressionFallback: 0
+  webGLDecompressionFallback: 1
   webGLPowerPreference: 2
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    WebGL: YG_PLUGIN_YANDEX_GAME
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
@@ -791,7 +805,7 @@ PlayerSettings:
   allowUnsafeCode: 0
   useDeterministicCompilation: 1
   enableRoslynAnalyzers: 1
-  selectedPlatform: 0
+  selectedPlatform: 3
   additionalIl2CppArgs: 
   scriptingRuntimeVersion: 1
   gcIncremental: 0
