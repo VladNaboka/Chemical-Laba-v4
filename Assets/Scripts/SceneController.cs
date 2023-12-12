@@ -1,33 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.SceneManagement; //импорт библиотеки для работы со сценами
 
 public class SceneController : MonoBehaviour
 {
-    private void Update()
+
+    private void Update() //метод Unity который срабатывает каждую миллисекунду 
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R)) //идет проверка на нажатие кнопки R (Рестарт) 
         {
-            Restart();
+            Restart(); //метод где прописан сам рестарт
         }
-        //if (Input.GetKeyDown(KeyCode.Escape))
-        //{
-        //    ToMenu();
-        //}
     }
-    public void LoadOnBtnClick(string name)
+
+    public void LoadOnBtnClick(string name) // метод который добавляется в кнопку при нажатии которой можно будет переключаться между сценами вбивая название сценв в параметр name
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(name, LoadSceneMode.Single);
+        SceneManager.LoadScene(name, LoadSceneMode.Single); //загрузка сцены
     }
     
-    public void Restart()
+    public void Restart() //метод рестарта
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.
-            GetActiveScene().buildIndex, LoadSceneMode.Single);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, //берем индекс текущей сцены
+            LoadSceneMode.Single);
     }
     public void ToMenu()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0, LoadSceneMode.Single);
+        SceneManager.LoadScene(0, LoadSceneMode.Single); // загрузка самой первой сцены
     }
 }

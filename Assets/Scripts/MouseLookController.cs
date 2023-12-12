@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MouseLookController : MonoBehaviour
+public class MouseLookController : MonoBehaviour //скрипт вращени€ камеры
 {
+    // обозначение переменных скрипта
     [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private Transform _playerBody;
     [SerializeField] private float _mouseSensitivity = 500f;
@@ -11,9 +12,9 @@ public class MouseLookController : MonoBehaviour
     private float _yRotation;
     private Vector2 _mouseInput;
 
-    private void Start()
+    private void Start() // начинаетс€ в первую секунду запуска сцены
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked; // скрываем курсор на сцене
     }
 
     private void Update()
@@ -21,18 +22,18 @@ public class MouseLookController : MonoBehaviour
         Look();
     }
 
-    private void Look()
+    private void Look() // метод вращени€ камеры
     {
         _mouseInput.x = _playerInput.MouseX * _mouseSensitivity; 
-        _mouseInput.y = _playerInput.MouseY * _mouseSensitivity; 
+        _mouseInput.y = _playerInput.MouseY * _mouseSensitivity;  //использование playerInput дл€ реализации вращени€ камерой
 
         _xRotation -= _mouseInput.y;
-        _xRotation = Mathf.Clamp(_xRotation, -70f, 70f);
+        _xRotation = Mathf.Clamp(_xRotation, -70f, 70f); // ограничени€ камеры по Y
 
         _yRotation += _mouseInput.x;
-        _yRotation = Mathf.Clamp(_yRotation, -70f, 70f);
+        _yRotation = Mathf.Clamp(_yRotation, -70f, 70f); // ограничени€ камеры по X
 
-        Camera.main.transform.localRotation = Quaternion.Euler(_xRotation, _yRotation, 0f);
+        Camera.main.transform.localRotation = Quaternion.Euler(_xRotation, _yRotation, 0f); //реализаци€ движени€ камеры через Quaternion
     }
 
     private void ChangeLookLimitations(bool isLevelCompleted)
